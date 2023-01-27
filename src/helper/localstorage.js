@@ -5,11 +5,10 @@ export const isSignedIn = () => {
   return JSON.parse(user);
 };
 
-export const setUser = (user, next) => {
+export const setUser = (user) => {
   user.password = null;
   if (typeof window === "undefined") return;
   window.localStorage.setItem("user", JSON.stringify(user));
-  next();
 };
 
 export const removeUser = () => {

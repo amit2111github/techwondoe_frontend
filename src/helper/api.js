@@ -18,7 +18,7 @@ export const userLogin = (email, password) => {
 	return fetch(url + "signin", requestOptions)
 		.then((response) => response.json())
 		.then((result) => result)
-		.catch((error) => alert("Oops something went wrong"));
+		.catch(() => alert("Oops something went wrong"));
 };
 
 export const userSignup = (name, email, password) => {
@@ -41,7 +41,7 @@ export const userSignup = (name, email, password) => {
 	return fetch(url + "signup", requestOptions)
 		.then((response) => response.json())
 		.then((result) => result)
-		.catch((error) => alert("Oops something went wrong"));
+		.catch(() => alert("Oops something went wrong"));
 };
 
 export const getShowList = (user, token) => {
@@ -146,7 +146,7 @@ export const updateShow = (
 	return fetch(url + "watchlist/", requestOptions)
 		.then((response) => response.json())
 		.then((result) => result)
-		.catch((error) => alert("Oops something went wrong"));
+		.catch(() => alert("Oops something went wrong"));
 };
 
 export const deleteShow = (user, token, showId) => {
@@ -169,5 +169,5 @@ export const deleteShow = (user, token, showId) => {
 	return fetch(url + "watchlist/", requestOptions)
 		.then((response) => response.json())
 		.then((result) => result)
-		.catch((error) => alert("Oops something went wrong"));
+		.catch(() => alert("Oops something went wrong"));
 };

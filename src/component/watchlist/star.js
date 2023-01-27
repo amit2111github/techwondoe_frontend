@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 const StarRating = ({ rating, setRating }) => {
 	const [hover, setHover] = useState(0);
 	const button = {
@@ -17,18 +18,23 @@ const StarRating = ({ rating, setRating }) => {
 						key={index}
 						style={{
 							...button,
-							color: index <= (hover || rating) ? "#000" : "#ccc",
+							color: index <= (hover || rating) ? "#ffa00a" : "#ccc",
 						}}
 						onClick={() => setRating(index)}
 						onMouseEnter={() => setHover(index)}
 						onMouseLeave={() => setHover(rating)}
 					>
-						<span className="star">&#9733;</span>
+						<span style={{ fontSize: "30px" }} className="star">
+							&#9733;
+						</span>
 					</button>
 				);
 			})}
 		</div>
 	);
 };
-
+StarRating.propTypes = {
+	rating: PropTypes.any,
+	setRating: PropTypes.func,
+};
 export default StarRating;

@@ -1,13 +1,8 @@
-import { useEffect, useState, useContext } from "react";
-import { userLogin } from "../../helper/api";
-import Carousel from "react-material-ui-carousel";
-
-import { setUser } from "../../helper/localstorage";
+import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../context/user";
-import { Navigate, useParams, Link } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import StarRating from "./star.js";
 const { getShow, updateShow } = require("../../helper/api");
-const Rating = require("react-rating");
 const { removeUser } = require("../../helper/localstorage");
 const WatchlistForm = () => {
 	const { showId } = useParams();
@@ -52,7 +47,7 @@ const WatchlistForm = () => {
 			[event.target.name]: event.target.value,
 		}));
 	};
-	const handleSubmit = async (event) => {
+	const handleSubmit = async () => {
 		if (state.loading) return;
 
 		if (!state.title) {
@@ -152,12 +147,8 @@ const WatchlistForm = () => {
 						</p>
 						<StarRating setRating={setRating} rating={rating} />
 					</div>
-					{state.error && (
-						<p style={{ color: "red" }}>{state.error}</p>
-					)}
-					{state.message && (
-						<p style={{ color: "green" }}>{state.message}</p>
-					)}
+					{state.error && <p style={{ color: "red" }}>{state.error}</p>}
+					{state.message && <p style={{ color: "green" }}>{state.message}</p>}
 					<div className="leftForm d-grid gap-2 mt-4 mb-4">
 						<button
 							className="btn btn-primary loginbutton"

@@ -1,13 +1,8 @@
-import { useEffect, useState, useContext } from "react";
-import { userLogin } from "../../helper/api";
-import Carousel from "react-material-ui-carousel";
-
-import { setUser } from "../../helper/localstorage";
+import React, { useState, useContext } from "react";
 import { UserContext } from "../../context/user";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import StarRating from "./star.js";
 const { addShow } = require("../../helper/api");
-const Rating = require("react-rating");
 const { removeUser } = require("../../helper/localstorage");
 const WatchlistForm = () => {
 	const { user, setUser } = useContext(UserContext);
@@ -30,7 +25,7 @@ const WatchlistForm = () => {
 			[event.target.name]: event.target.value,
 		}));
 	};
-	const handleSubmit = async (event) => {
+	const handleSubmit = async () => {
 		if (state.loading) return;
 		setState((old) => ({ ...old, loading: true }));
 		const data = await addShow(
@@ -43,7 +38,6 @@ const WatchlistForm = () => {
 		);
 		if (data.error) {
 			if (data.code == 1) {
-				console.log("inside");
 				window.location.href = "/signin";
 				removeUser();
 				setUser(null);
@@ -99,7 +93,7 @@ const WatchlistForm = () => {
 					</div>
 					<div className="form-group leftForm pt-3">
 						<p className="text-left gg" style={{ opacity: 0.7 }}>
-							Review
+							Comment
 						</p>
 						<input
 							type="text"
@@ -115,12 +109,8 @@ const WatchlistForm = () => {
 						</p>
 						<StarRating setRating={setRating} rating={rating} />
 					</div>
-					{state.error && (
-						<p style={{ color: "red" }}>{state.error}</p>
-					)}
-					{state.message && (
-						<p style={{ color: "green" }}>{state.message}</p>
-					)}
+					{state.error && <p style={{ color: "red" }}>{state.error}</p>}
+					{state.message && <p style={{ color: "green" }}>{state.message}</p>}
 					<div className="leftForm d-grid gap-2 mt-4 mb-4">
 						<button
 							className="btn btn-primary loginbutton"

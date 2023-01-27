@@ -35,6 +35,12 @@ const Watchlist = () => {
 	if (!user) {
 		return <Navigate to="/signin" />;
 	}
+	const button = {
+		backgroundColor: "transparent",
+		border: "none",
+		outline: "none",
+		cursor: "pointer",
+	};
 	return (
 		<div className="container text-center">
 			<Link to="/Watchlist/create">
@@ -46,9 +52,7 @@ const Watchlist = () => {
 			)}
 			{show.length > 0 && (
 				<table className="table table-hover mt-4">
-					<thead
-						style={{ backgroundColor: "#5c9bbf", color: "#fff" }}
-					>
+					<thead style={{ backgroundColor: "#5c9bbf", color: "#fff" }}>
 						<tr>
 							<th scope="col">#</th>
 							<th scope="col">Title</th>
@@ -71,19 +75,36 @@ const Watchlist = () => {
 								<th scope="row">{index + 1}</th>
 								<td>{cur.title}</td>
 								<td>{cur.streaming_app}</td>
-								<td>{cur.rating}</td>
 								<td>{cur.review}</td>
 								<td>
+									{[...Array(5)].map((star, index) => {
+										index++;
+										return (
+											<button
+												type="button"
+												key={index}
+												style={{
+													...button,
+													color: index <= cur.rating ? "#ffa00a" : "#ccc",
+												}}
+											>
+												<span style={{ fontSize: "25px" }} className="star">
+													&#9733;
+												</span>
+											</button>
+										);
+									})}
+								</td>
+
+								<td>
 									<Link to={"/Watchlist/u/" + cur.id}>
-										<button className="btn btn-primary">
-											Update
-										</button>
+										<button className="btn btn-primary">Update</button>
 									</Link>
 								</td>
 								<td>
 									<button
 										className="btn btn-danger"
-										onClick={(e) => handleDelete(cur.id)}
+										onClick={() => handleDelete(cur.id)}
 									>
 										Delete
 									</button>

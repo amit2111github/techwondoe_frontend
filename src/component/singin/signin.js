@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { userLogin } from "../../helper/api";
 import Carousel from "react-material-ui-carousel";
 import { setUser } from "../../helper/localstorage";
@@ -7,7 +7,7 @@ import { Navigate, Link } from "react-router-dom";
 import "./signin.css";
 // import Link from "";
 const Signin = () => {
-	const { user, userState } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [state, setState] = useState({
 		email: "",
 		password: "",
@@ -25,11 +25,11 @@ const Signin = () => {
 			[event.target.name]: event.target.value,
 		}));
 	};
-	const handleSubmit = async (event) => {
+	const handleSubmit = async () => {
 		if (state.loading) return;
 		setState((old) => ({ ...old, loading: true }));
 		const data = await userLogin(state.email.trim(), state.password.trim());
-		if (data.error) {
+		if (data?.error) {
 			setState((old) => ({
 				...old,
 				error: data.error,
@@ -38,15 +38,7 @@ const Signin = () => {
 			}));
 			return;
 		}
-		setUser(data, () => {
-			setState((old) => ({
-				...old,
-				error: false,
-				loading: false,
-				message: "Login Successfully done.",
-				redirect: true,
-			}));
-		});
+		setUser(data);
 		window.location.href = "/Watchlist";
 	};
 	const item = [
@@ -84,21 +76,17 @@ const Signin = () => {
 							onChange={handleChange}
 							placeholder="password"
 						/>
-						<Link to="/signup">
+						<Link to="/signup" style={{ textDecoration: "none" }}>
 							<p
 								className="text-primary pt-2 font-sm"
 								style={{ cursor: "pointer" }}
 							>
-								Have no account?
+								Create Account
 							</p>
 						</Link>
 					</div>
-					{state.error && (
-						<p style={{ color: "red" }}>{state.error}</p>
-					)}
-					{state.message && (
-						<p style={{ color: "green" }}>{state.message}</p>
-					)}
+					{state.error && <p style={{ color: "red" }}>{state.error}</p>}
+					{state.message && <p style={{ color: "green" }}>{state.message}</p>}
 					<div className="leftForm d-grid gap-2 mt-4">
 						<button
 							className="btn btn-primary loginbutton"

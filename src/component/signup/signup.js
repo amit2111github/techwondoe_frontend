@@ -1,12 +1,11 @@
-import { useEffect, useState, useContext, useNavigate } from "react";
+import React, { useState, useContext } from "react";
 import { userSignup } from "../../helper/api";
 import Carousel from "react-material-ui-carousel";
-import { setUser } from "../../helper/localstorage";
 import { UserContext } from "../../context/user";
 import { Navigate, Link } from "react-router-dom";
 import "./signup.css";
 const Signup = () => {
-	const { user, userState } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [state, setState] = useState({
 		name: "",
 		email: "",
@@ -25,7 +24,7 @@ const Signup = () => {
 			[event.target.name]: event.target.value,
 		}));
 	};
-	const handleSubmit = async (event) => {
+	const handleSubmit = async () => {
 		if (state.loading) return;
 		setState((old) => ({ ...old, loading: true }));
 		const data = await userSignup(
@@ -48,10 +47,7 @@ const Signup = () => {
 			loading: false,
 			message: "Login Successfully done.",
 		}));
-		setUser(data);
-		setTimeout(() => {
-			setState((old) => ({ ...old, redirect: true }));
-		}, 1000);
+		window.location.href = "/signin";
 	};
 	const item = [
 		"https://orocorp.greythr.com/uas/v1/cms/asset/17042120-a978-4094-b8c9-deeed84dfe7e",
@@ -101,7 +97,7 @@ const Signup = () => {
 							onChange={handleChange}
 							placeholder="password"
 						/>
-						<Link to="/signin">
+						<Link to="/signin" style={{ textDecoration: "none" }}>
 							<p
 								className="text-primary pt-2 font-sm"
 								style={{ cursor: "pointer" }}
@@ -110,12 +106,8 @@ const Signup = () => {
 							</p>
 						</Link>
 					</div>
-					{state.error && (
-						<p style={{ color: "red" }}>{state.error}</p>
-					)}
-					{state.message && (
-						<p style={{ color: "green" }}>{state.message}</p>
-					)}
+					{state.error && <p style={{ color: "red" }}>{state.error}</p>}
+					{state.message && <p style={{ color: "green" }}>{state.message}</p>}
 					<div className="leftForm d-grid gap-2 mt-4 mb-4">
 						<button
 							className="btn btn-primary loginbutton"
